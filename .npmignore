@@ -1,2 +1,8 @@
+# Ignore all files and directories by default
 *
+
+# Allow the inclusion of necessary files and directories
+!package.json
+!README.md
+!LICENSE
 !lib/

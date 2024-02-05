@@ -50,17 +50,14 @@ import 'react-responsive-iframe-viewer/dist/style.css'
 ## Usage
 
 ```tsx
-import { ResponsiveIframeViewer, ViewportSizeType } from 'react-responsive-iframe-viewer';
+import { ResponsiveIframeViewer, ViewportSize } from 'react-responsive-iframe-viewer';
 
 <ResponsiveIframeViewer
   src="https://www.youtube.com/embed/dQw4w9WgXcQ"
   title="Rick Astley - Never Gonna Give You Up"
-  size={ViewportSizeType.mobile}
+  size={ViewportSize.mobile}
 />
 ```
-
-
-
 
 ## Options & Props
 `src` - The URL of the iframe content

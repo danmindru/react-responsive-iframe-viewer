@@ -1,7 +1,9 @@
 {
   "name": "react-responsive-iframe-viewer",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "A responsive iframe viewer for React",
+  "main": "./dist/react-responsive-iframe-viewer.js",
   "type": "module",
   "scripts": {
     "dev": "vite",

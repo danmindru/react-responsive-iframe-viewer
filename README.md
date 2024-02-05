@@ -36,10 +36,17 @@ import { ResponsiveIframeViewer, ViewportSizeType } from 'react-responsive-ifram
 `src` - The URL of the iframe content
 `title` - The title of the iframe content
 `size` - The size of the iframe container
+`showControls` - Whether to show device controls or not (**default: true**)
+`allowResizingY` - Whether to allow resizing the iframe container vertically (**default: false**)
+`allowResizingX` - Whether to allow resizing the iframe container horizontally (**default: false**)
+
 
 ### Custom sizes
 
-You can provide a custom width/height for the iframe container.
+You can provide a custom width/height for the iframe container:
+- `width` - The width of the iframe container
+- `height` - The height of the iframe container
+
 The `size` prop will be ignored if `width` and `height` are provided.
 
 ```tsx
@@ -55,17 +62,48 @@ The `size` prop will be ignored if `width` and `height` are provided.
 
 ```tsx
 export const VIEWPORT_SIZES = {
-  MOBILE: {
+  mobile: {
     width: 320,
     height: 568,
   },
-  TABLET: {
+  tablet: {
     width: 768,
     height: 1024,
   },
-  DESKTOP: {
+  desktop: {
     width: 1024,
     height: 768,
+  },
+
+  // Tailwind Viewports
+  sm: {
+    width: 640,
+    height: 1136,
+  },
+
+  md: {
+    width: 768,
+    height: 1024,
+  },
+
+  lg: {
+    width: 1024,
+    height: 768,
+  },
+
+  xl: {
+    width: 1280,
+    height: 720,
+  },
+
+  "2xl": {
+    width: 1536,
+    height: 864,
+  },
+
+  "3xl": {
+    width: 1920,
+    height: 1080,
   },
 };
 ```

@@ -114,18 +114,50 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     );
   };
 
+  const Controls = () => {
+    return showControls ? (
+      <div className="flex items-center justify-center gap-2">
+        <ViewportChangeButton
+          size="mobile"
+          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.mobile)}
+          selected={isSizeSelected(ViewportSize.mobile)}
+        />
+
+        <ViewportChangeButton
+          size="tablet"
+          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.tablet)}
+          selected={isSizeSelected(ViewportSize.tablet)}
+        />
+
+        <ViewportChangeButton
+          size="desktop"
+          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.desktop)}
+          selected={isSizeSelected(ViewportSize.desktop)}
+        />
+      </div>
+    ) : null;
+  };
+
   useEffect(() => {
     setViewportSizeInternal(getViewportSize());
   }, [getViewportSize]);
 
   if (!allowResizingX && !allowResizingY) {
     return (
-      <iframe
-        {...rest}
-        height={viewportSizeInternal.height}
-        width={viewportSizeInternal.width}
-        className="border-none"
-      />
+      <div
+        className={[
+          "flex flex-col gap-4 items-center justify-center",
+          props.className,
+        ].join(" ")}
+      >
+        <Controls />
+        <iframe
+          {...rest}
+          height={viewportSizeInternal.height}
+          width={viewportSizeInternal.width}
+          className="border-none"
+        />
+      </div>
     );
   }
 
@@ -136,27 +168,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         props.className,
       ].join(" ")}
     >
-      {showControls ? (
-        <div className="flex items-center justify-center gap-2">
-          <ViewportChangeButton
-            size="mobile"
-            onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.mobile)}
-            selected={isSizeSelected(ViewportSize.mobile)}
-          />
-
-          <ViewportChangeButton
-            size="tablet"
-            onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.tablet)}
-            selected={isSizeSelected(ViewportSize.tablet)}
-          />
-
-          <ViewportChangeButton
-            size="desktop"
-            onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.desktop)}
-            selected={isSizeSelected(ViewportSize.desktop)}
-          />
-        </div>
-      ) : null}
+      <Controls />
 
       <Resizable
         defaultSize={{

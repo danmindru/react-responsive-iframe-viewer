@@ -12,12 +12,39 @@ View iframe content in a responsive container that can:
 - ✨ all animated & pretty
 - 🌚 and with dark mode support
 
-## Installation
+## Getting started
 
+
+### Install
 Grab the package from npm:
 
 ```bash
 npm install react-responsive-iframe-viewer
+```
+
+### Setup styles
+
+#### With TailwindCSS
+If you use TailwindCSS, you need to mark this package as content:
+
+**tailwind.config.js**
+
+```js
+module.exports = {
+  content: [
++   'node_modules/react-responsive-iframe-viewer/**/*.{js,ts,jsx,tsx,html}',
+    ...
+  ]
+}
+```
+
+Dark mode is supported out of the box for TailwindCSS.
+
+#### Without TailwindCSS
+If you don't use TailwindCSS, you can import the styles directly:
+
+```
+import 'react-responsive-iframe-viewer/dist/style.css'
 ```
 
 ## Usage
@@ -31,6 +58,9 @@ import { ResponsiveIframeViewer, ViewportSizeType } from 'react-responsive-ifram
   size={ViewportSizeType.mobile}
 />
 ```
+
+
+
 
 ## Options & Props
 `src` - The URL of the iframe content

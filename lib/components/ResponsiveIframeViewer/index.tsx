@@ -8,6 +8,7 @@ import {
   SmartphoneIcon,
   Laptop2Icon,
   MonitorIcon,
+  FullscreenIcon,
 } from "lucide-react";
 
 interface ResponsiveIframeViewerProps
@@ -17,7 +18,10 @@ interface ResponsiveIframeViewerProps
   width?: number;
   height?: number;
   size?: ViewportSizeType;
+  minWidth?: number;
+  minHeight?: number;
   showControls?: boolean;
+  enabledControls?: ViewportSizeType[];
   allowResizingY?: boolean;
   allowResizingX?: boolean;
   iframeClassName?: string;
@@ -33,25 +37,32 @@ const ViewportChangeButton = (props: ViewportChangeButtonProps) => {
   const { size, ...rest } = props;
   const iconSize = 18;
 
+  let icon = <FullscreenIcon size={iconSize} />;
+  switch (size) {
+    case ViewportSize.mobile:
+      icon = <SmartphoneIcon size={iconSize} />;
+      break;
+    case ViewportSize.tablet:
+      icon = <Laptop2Icon size={iconSize} />;
+      break;
+    case ViewportSize.desktop:
+      icon = <MonitorIcon size={iconSize} />;
+      break;
+  }
+
   return (
     <button
       {...rest}
       className={[
         "border-0", // Reset
-        "w-10 h-10 flex items-center justify-center text-slate-900 dark:text-white hover:bg-gray-100 focus:bg-gray-300 dark:hover:bg-gray-700 dark:focus:bg-gray-900 transition-all rounded-md",
+        "cursor-pointer w-10 h-10 flex items-center justify-center text-slate-900 dark:text-white hover:bg-gray-100 focus:bg-gray-300 dark:hover:bg-gray-700 dark:focus:bg-gray-900 transition-all rounded-md",
         props.selected
           ? "bg-gray-200 dark:bg-gray-800"
           : "bg-transparent dark:bg-transparent",
         props.className,
       ].join(" ")}
     >
-      {size === "mobile" ? (
-        <SmartphoneIcon size={iconSize} />
-      ) : size === "tablet" ? (
-        <Laptop2Icon size={iconSize} />
-      ) : (
-        <MonitorIcon size={iconSize} />
-      )}
+      {icon}
     </button>
   );
 };
@@ -93,6 +104,14 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     width = VIEWPORT_SIZES.desktop.width,
     height = VIEWPORT_SIZES.desktop.height,
     size,
+    minWidth = 200,
+    minHeight = 200,
+    enabledControls = [
+      ViewportSize.mobile,
+      ViewportSize.tablet,
+      ViewportSize.desktop,
+      ViewportSize.fluid,
+    ],
     showControls = true,
     allowResizingY = false,
     allowResizingX = false,
@@ -105,8 +124,29 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     return viewportSize;
   }, [size, width, height]);
 
-  const [viewportSizeInternal, setViewportSizeInternal] = useState(
-    getViewportSize()
+  const [viewportSizeInternal, setViewportSizeInternal] = useState<{
+    width: number | string;
+    height: number | string;
+  }>(getViewportSize());
+
+  const updateViewportSize = useCallback(
+    ({
+      width,
+      height,
+    }: {
+      width: number | string;
+      height: number | string;
+    }) => {
+      if (typeof width === "number" && typeof height === "number") {
+        const nextWidth = width < (minWidth || 0) ? minWidth : width;
+        const nextHeight = height < (minHeight || 0) ? minHeight : height;
+
+        setViewportSizeInternal({ width: nextWidth, height: nextHeight });
+      } else {
+        setViewportSizeInternal({ width, height });
+      }
+    },
+    [setViewportSizeInternal, minWidth, minHeight]
   );
 
   const isSizeSelected = (size: ViewportSizeType) => {
@@ -119,36 +159,29 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
   const Controls = () => {
     return showControls ? (
       <div className="flex items-center justify-center gap-2">
-        <ViewportChangeButton
-          size="mobile"
-          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.mobile)}
-          selected={isSizeSelected(ViewportSize.mobile)}
-        />
-
-        <ViewportChangeButton
-          size="tablet"
-          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.tablet)}
-          selected={isSizeSelected(ViewportSize.tablet)}
-        />
-
-        <ViewportChangeButton
-          size="desktop"
-          onClick={() => setViewportSizeInternal(VIEWPORT_SIZES.desktop)}
-          selected={isSizeSelected(ViewportSize.desktop)}
-        />
+        {enabledControls.map((size) => {
+          return (
+            <ViewportChangeButton
+              key={size}
+              size={size}
+              onClick={() => updateViewportSize(VIEWPORT_SIZES[size])}
+              selected={isSizeSelected(size)}
+            />
+          );
+        })}
       </div>
     ) : null;
   };
 
   useEffect(() => {
-    setViewportSizeInternal(getViewportSize());
-  }, [getViewportSize]);
+    updateViewportSize(getViewportSize());
+  }, [getViewportSize, updateViewportSize]);
 
   if (!allowResizingX && !allowResizingY) {
     return (
       <div
         className={[
-          "flex flex-col gap-4 items-center justify-center",
+          "h-full w-full flex flex-col gap-4 items-center justify-center",
           props.className,
         ].join(" ")}
       >
@@ -166,7 +199,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
   return (
     <div
       className={[
-        "flex flex-col gap-4 items-center justify-center",
+        "h-full w-full flex flex-col gap-4 items-center justify-center",
         props.className,
       ].join(" ")}
     >
@@ -181,11 +214,27 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
           width: viewportSizeInternal.width,
           height: viewportSizeInternal.height,
         }}
-        onResizeStop={(_e, _direction, _ref, d) => {
-          setViewportSizeInternal({
-            width: viewportSizeInternal.width + d.width,
-            height: viewportSizeInternal.height + d.height,
-          });
+        minWidth={viewportSizeInternal.width === "100%" ? undefined : minWidth}
+        minHeight={
+          viewportSizeInternal.height === "100%" ? undefined : minHeight
+        }
+        onResizeStop={(_e, _direction, ref, d) => {
+          if (
+            typeof viewportSizeInternal.width === "number" &&
+            typeof viewportSizeInternal.height === "number"
+          ) {
+            updateViewportSize({
+              width: viewportSizeInternal.width + d.width,
+              height: viewportSizeInternal.height + d.height,
+            });
+          } else {
+            const existingSize = ref.getBoundingClientRect();
+
+            updateViewportSize({
+              width: existingSize.width + d.width,
+              height: existingSize.height + d.height,
+            });
+          }
         }}
         handleComponent={{
           // top: <HorizontalHandle />,

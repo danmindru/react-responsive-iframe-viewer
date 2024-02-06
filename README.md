@@ -2,6 +2,8 @@
 
 
 # React Responsive Iframe Viewer
+[![npm version](https://badge.fury.io/js/react-responsive-iframe-viewer.svg)](https://badge.fury.io/js/react-responsive-iframe-viewer)
+
 View iframe content in a responsive container that can:
 
 - Switch between common devices sizes
@@ -11,6 +13,11 @@ View iframe content in a responsive container that can:
 - Resize using the provided handles
 - ✨ all animated & pretty
 - 🌚 and with dark mode support
+
+
+
+[Demo 🚀](https://react-responsive-iframe-viewer.vercel.app/)
+[Usage examples 👨‍💻](https://github.com/danmindru/react-responsive-iframe-viewer/blob/main/src/App.tsx)
 
 ## Getting started
 
@@ -43,7 +50,7 @@ Dark mode is supported out of the box for TailwindCSS.
 #### Without TailwindCSS
 If you don't use TailwindCSS, you can import the styles directly:
 
-```
+```tsx
 import 'react-responsive-iframe-viewer/dist/style.css'
 ```
 
@@ -63,7 +70,10 @@ import { ResponsiveIframeViewer, ViewportSize } from 'react-responsive-iframe-vi
 `src` - The URL of the iframe content
 `title` - The title of the iframe content
 `size` - The size of the iframe container
+`minWidth` - The minimum width to resize down to (**default: 200**)
+`minHeight` - The minimum height to resize down to (**default: 200**)
 `showControls` - Whether to show device controls or not (**default: true**)
+`enabledControls` - An array of controls to enable (**default: [ViewportSize.mobile, ViewportSize.tablet, ViewportSize.desktop, ViewportSize.fluid]**)
 `allowResizingY` - Whether to allow resizing the iframe container vertically (**default: false**)
 `allowResizingX` - Whether to allow resizing the iframe container horizontally (**default: false**)
 
@@ -85,6 +95,22 @@ The `size` prop will be ignored if `width` and `height` are provided.
 />
 ```
 
+## Custom controls
+
+It is possible to only show a subset of the available viewport toggles by passing in a list of enabled controls:
+
+```tsx
+import { ResponsiveIframeViewer, ViewportSize } from "../lib/main";
+
+<ResponsiveIframeViewer
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="Rick Astley - Never Gonna Give You Up"
+  size={ViewportSize.mobile}
++  enabledControls={[ViewportSize.mobile, ViewportSize.fluid]}
+  allowResizingX
+/>
+```
+
 ## Supported sizes
 
 ```tsx
@@ -100,6 +126,10 @@ export const VIEWPORT_SIZES = {
   desktop: {
     width: 1024,
     height: 768,
+  },
+  fluid: {
+    width: "100%",
+    height: "100%",
   },
 
   // Tailwind Viewports

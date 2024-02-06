@@ -11,6 +11,10 @@ export const VIEWPORT_SIZES = {
     width: 1024,
     height: 768,
   },
+  fluid: {
+    width: "100%",
+    height: "100%",
+  },
 
   // Tailwind Viewports
   sm: {
@@ -49,6 +53,7 @@ export const ViewportSize = {
   mobile: "mobile" as ViewportSizeType,
   tablet: "tablet" as ViewportSizeType,
   desktop: "desktop" as ViewportSizeType,
+  fluid: "fluid" as ViewportSizeType,
   sm: "sm" as ViewportSizeType,
   md: "md" as ViewportSizeType,
   lg: "lg" as ViewportSizeType,

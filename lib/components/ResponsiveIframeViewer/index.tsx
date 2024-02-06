@@ -221,7 +221,10 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         }}
         className="hover:transition-none transition-all"
       >
-        <iframe {...rest} className="border-none w-full h-full" />
+        <iframe
+          {...rest}
+          className={["border-none w-full h-full", iframeClassName].join(" ")}
+        />
       </Resizable>
     </div>
   );

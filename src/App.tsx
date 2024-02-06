@@ -9,14 +9,26 @@ function App() {
         <h1 className="m-0">React Responsive Iframe Viewer</h1>
         <p>Display iframes responsively in your React app, in style.</p>
 
-        <a
-          href="https://github.com/danmindru/react-responsive-iframe-viewer"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2"
-        >
-          <GithubIcon /> Get it on GitHub <ExternalLinkIcon />
-        </a>
+        <div className="flex flex-wrap gap-8">
+          <a
+            href="https://github.com/danmindru/react-responsive-iframe-viewer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2"
+          >
+            <GithubIcon className="w-5 h-5" /> Get it on GitHub
+          </a>
+
+          <a
+            href="https://github.com/danmindru/react-responsive-iframe-viewer/blob/main/src/App.tsx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2"
+          >
+            <ExternalLinkIcon className="w-5 h-5" /> See source for these
+            examples
+          </a>
+        </div>
       </div>
 
       <div className="flex flex-col items-center w-full border border-dashed border-gray-500/50 border-l-0 border-r-0 border-b-0 pt-4">
@@ -116,6 +128,39 @@ function App() {
           sm: { width: 400, height: 400 },
           "2xl": { width: 1000, height: 1000 },
         }}
+        allowResizingX
+        allowResizingY
+      />
+
+      <div className="flex flex-col items-center w-full border border-dashed border-gray-500/50 border-l-0 border-r-0 border-b-0 pt-4">
+        <h2 className="m-0 text-sm">Override built-in sizes</h2>
+        <p>Modify width or height of built-in sizes</p>
+      </div>
+
+      <ResponsiveIframeViewer
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="Rick Astley - Never Gonna Give You Up"
+        size={ViewportSize.sm}
+        enabledControls={[ViewportSize.sm, ViewportSize["2xl"]]}
+        overrideViewportSizes={{
+          sm: { width: 400, height: 400 },
+          "2xl": { width: 1000, height: 1000 },
+        }}
+        allowResizingX
+        allowResizingY
+      />
+
+      <div className="flex flex-col items-center w-full border border-dashed border-gray-500/50 border-l-0 border-r-0 border-b-0 pt-4">
+        <h2 className="m-0 text-sm">Add control components</h2>
+        <p>Add arbitrary components before or after the built-in controls.</p>
+      </div>
+
+      <ResponsiveIframeViewer
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="Rick Astley - Never Gonna Give You Up"
+        size={ViewportSize.tablet}
+        controlsPreComponent={<b>Change device</b>}
+        controlsContainerClassName="w-full max-w-md"
         allowResizingX
         allowResizingY
       />

@@ -26,8 +26,6 @@ interface ResponsiveIframeViewerProps
   enabledControls?: ViewportSizeType[];
   allowResizingY?: boolean;
   allowResizingX?: boolean;
-  iframeClassName?: string;
-  resizableContainerClassName?: string;
   overrideViewportSizes?: Partial<
     Record<
       ViewportSizeType,
@@ -37,6 +35,12 @@ interface ResponsiveIframeViewerProps
       }
     >
   >;
+  iframeClassName?: string;
+  resizableContainerClassName?: string;
+  controlsClassName?: string;
+  controlsContainerClassName?: string;
+  controlsPreComponent?: React.ReactNode;
+  controlsPostComponent?: React.ReactNode;
 }
 
 interface ViewportChangeButtonProps
@@ -198,17 +202,31 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
 
   const Controls = () => {
     return showControls ? (
-      <div className="flex items-center justify-center gap-2">
-        {enabledControls.map((size) => {
-          return (
-            <ViewportChangeButton
-              key={size}
-              size={size}
-              onClick={() => updateViewportSize(VIEWPORT_SIZES[size], size)}
-              selected={isSizeSelected(size)}
-            />
-          );
-        })}
+      <div
+        className={[
+          "flex justify-between items-center gap-2",
+          props.controlsContainerClassName,
+        ].join(" ")}
+      >
+        {props.controlsPreComponent}
+        <div
+          className={[
+            "flex items-center justify-center gap-2",
+            props.controlsClassName,
+          ].join(" ")}
+        >
+          {enabledControls.map((size) => {
+            return (
+              <ViewportChangeButton
+                key={size}
+                size={size}
+                onClick={() => updateViewportSize(VIEWPORT_SIZES[size], size)}
+                selected={isSizeSelected(size)}
+              />
+            );
+          })}
+        </div>
+        {props.controlsPostComponent}
       </div>
     ) : null;
   };

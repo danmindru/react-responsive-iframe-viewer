@@ -25,6 +25,7 @@ interface ResponsiveIframeViewerProps
   allowResizingY?: boolean;
   allowResizingX?: boolean;
   iframeClassName?: string;
+  resizableContainerClassName?: string;
 }
 
 interface ViewportChangeButtonProps
@@ -116,6 +117,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     allowResizingY = false,
     allowResizingX = false,
     iframeClassName = "",
+    resizableContainerClassName = "",
     ...rest
   } = props;
 
@@ -268,7 +270,10 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
           bottomLeft: false,
           topLeft: false,
         }}
-        className="hover:transition-none transition-all"
+        className={[
+          "hover:transition-none transition-all",
+          resizableContainerClassName,
+        ].join(" ")}
       >
         <iframe
           {...rest}

@@ -20,6 +20,7 @@ interface ResponsiveIframeViewerProps
   showControls?: boolean;
   allowResizingY?: boolean;
   allowResizingX?: boolean;
+  iframeClassName?: string;
 }
 
 interface ViewportChangeButtonProps
@@ -95,6 +96,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     showControls = true,
     allowResizingY = false,
     allowResizingX = false,
+    iframeClassName = "",
     ...rest
   } = props;
 
@@ -155,7 +157,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
           {...rest}
           height={viewportSizeInternal.height}
           width={viewportSizeInternal.width}
-          className="border-none"
+          className={["border-none", iframeClassName].join(" ")}
         />
       </div>
     );

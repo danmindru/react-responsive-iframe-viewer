@@ -81,6 +81,44 @@ function App() {
         enabledControls={[ViewportSize.mobile, ViewportSize.fluid]}
         allowResizingX
       />
+
+      <div className="flex flex-col items-center w-full border border-dashed border-gray-500/50 border-l-0 border-r-0 border-b-0 pt-4">
+        <h2 className="m-0 text-sm">Tailwind controls</h2>
+        <p>Use TailwindCSS breakpoints as controls</p>
+      </div>
+
+      <ResponsiveIframeViewer
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="Rick Astley - Never Gonna Give You Up"
+        size={ViewportSize.sm}
+        enabledControls={[
+          ViewportSize.sm,
+          ViewportSize.md,
+          // ViewportSize.lg,
+          ViewportSize.xl,
+          // ViewportSize["2xl"],
+          ViewportSize["3xl"],
+        ]}
+        allowResizingX
+      />
+
+      <div className="flex flex-col items-center w-full border border-dashed border-gray-500/50 border-l-0 border-r-0 border-b-0 pt-4">
+        <h2 className="m-0 text-sm">Override built-in sizes</h2>
+        <p>Modify width or height of built-in sizes</p>
+      </div>
+
+      <ResponsiveIframeViewer
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="Rick Astley - Never Gonna Give You Up"
+        size={ViewportSize.sm}
+        enabledControls={[ViewportSize.sm, ViewportSize["2xl"]]}
+        overrideViewportSizes={{
+          sm: { width: 400, height: 400 },
+          "2xl": { width: 1000, height: 1000 },
+        }}
+        allowResizingX
+        allowResizingY
+      />
     </div>
   );
 }

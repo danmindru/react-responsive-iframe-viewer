@@ -9,6 +9,8 @@ import {
   Laptop2Icon,
   MonitorIcon,
   FullscreenIcon,
+  Tv2Icon,
+  ScanIcon,
 } from "lucide-react";
 
 interface ResponsiveIframeViewerProps
@@ -26,6 +28,15 @@ interface ResponsiveIframeViewerProps
   allowResizingX?: boolean;
   iframeClassName?: string;
   resizableContainerClassName?: string;
+  overrideViewportSizes?: Partial<
+    Record<
+      ViewportSizeType,
+      {
+        width: number | string;
+        height: number | string;
+      }
+    >
+  >;
 }
 
 interface ViewportChangeButtonProps
@@ -41,13 +52,26 @@ const ViewportChangeButton = (props: ViewportChangeButtonProps) => {
   let icon = <FullscreenIcon size={iconSize} />;
   switch (size) {
     case ViewportSize.mobile:
+    case ViewportSize.sm:
       icon = <SmartphoneIcon size={iconSize} />;
       break;
     case ViewportSize.tablet:
+    case ViewportSize.md:
       icon = <Laptop2Icon size={iconSize} />;
       break;
     case ViewportSize.desktop:
+    case ViewportSize.lg:
+    case ViewportSize.xl:
       icon = <MonitorIcon size={iconSize} />;
+      break;
+
+    case ViewportSize["2xl"]:
+    case ViewportSize["3xl"]:
+      icon = <Tv2Icon size={iconSize} />;
+      break;
+
+    default:
+      icon = <ScanIcon size={iconSize} />;
       break;
   }
 
@@ -113,6 +137,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
       ViewportSize.desktop,
       ViewportSize.fluid,
     ],
+    overrideViewportSizes,
     showControls = true,
     allowResizingY = false,
     allowResizingX = false,
@@ -132,13 +157,26 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
   }>(getViewportSize());
 
   const updateViewportSize = useCallback(
-    ({
-      width,
-      height,
-    }: {
-      width: number | string;
-      height: number | string;
-    }) => {
+    (
+      { width, height }: { width: number | string; height: number | string },
+      size?: ViewportSizeType
+    ) => {
+      // Handle known viewports, applying overrides if necessary.
+      if (size) {
+        const viewportWidth =
+          overrideViewportSizes?.[size]?.width || VIEWPORT_SIZES[size].width;
+        const viewportHeight =
+          overrideViewportSizes?.[size]?.height || VIEWPORT_SIZES[size].height;
+
+        setViewportSizeInternal({
+          width: viewportWidth,
+          height: viewportHeight,
+        });
+
+        return;
+      }
+
+      // Arbitrary dimensions.
       if (typeof width === "number" && typeof height === "number") {
         const nextWidth = width < (minWidth || 0) ? minWidth : width;
         const nextHeight = height < (minHeight || 0) ? minHeight : height;
@@ -148,7 +186,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         setViewportSizeInternal({ width, height });
       }
     },
-    [setViewportSizeInternal, minWidth, minHeight]
+    [setViewportSizeInternal, minWidth, minHeight, overrideViewportSizes]
   );
 
   const isSizeSelected = (size: ViewportSizeType) => {
@@ -166,7 +204,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
             <ViewportChangeButton
               key={size}
               size={size}
-              onClick={() => updateViewportSize(VIEWPORT_SIZES[size])}
+              onClick={() => updateViewportSize(VIEWPORT_SIZES[size], size)}
               selected={isSizeSelected(size)}
             />
           );
@@ -176,8 +214,8 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
   };
 
   useEffect(() => {
-    updateViewportSize(getViewportSize());
-  }, [getViewportSize, updateViewportSize]);
+    updateViewportSize(getViewportSize(), size);
+  }, [getViewportSize, updateViewportSize, size]);
 
   if (!allowResizingX && !allowResizingY) {
     return (

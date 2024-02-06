@@ -1,7 +1,7 @@
 {
   "name": "react-responsive-iframe-viewer",
   "private": false,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A responsive iframe viewer for React",
   "main": "dist/main.js",
   "type": "module",
@@ -10,7 +10,8 @@
     "build": "tsc --p ./tsconfig-build.json && vite build",
     "build-website": "vite build --config ./vite.website.config.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "install": "^0.13.0",

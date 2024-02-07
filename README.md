@@ -1,4 +1,6 @@
-![iframe-thing (1)](https://github.com/danmindru/react-responsive-iframe-viewer/assets/1515742/94a50b53-0344-4b91-bec6-1c4d33034f9b)
+![Screenshot showing responsive iframe viewer demo](https://github.com/danmindru/react-responsive-iframe-viewer/assets/1515742/cbc09f80-f9a7-4a3a-ba23-1dd8b9b7fe47)
+
+![Screenshot showing multiple demos, including dark mode](https://github.com/danmindru/react-responsive-iframe-viewer/assets/1515742/94a50b53-0344-4b91-bec6-1c4d33034f9b)
 
 
 # React Responsive Iframe Viewer
@@ -23,7 +25,7 @@ View iframe content in a responsive container that can:
 ### Install
 Grab the package from npm:
 
-```bash
+```sh
 npm install react-responsive-iframe-viewer
 ```
 
@@ -65,15 +67,15 @@ import { ResponsiveIframeViewer, ViewportSize } from 'react-responsive-iframe-vi
 ```
 
 ## Options & Props
-`src` - The URL of the iframe content
-`title` - The title of the iframe content
-`size` - The size of the iframe container
-`minWidth` - The minimum width to resize down to (**default: 200**)
-`minHeight` - The minimum height to resize down to (**default: 200**)
-`showControls` - Whether to show device controls or not (**default: true**)
-`enabledControls` - An array of controls to enable (**default: [ViewportSize.mobile, ViewportSize.tablet, ViewportSize.desktop, ViewportSize.fluid]**)
-`allowResizingY` - Whether to allow resizing the iframe container vertically (**default: false**)
-`allowResizingX` - Whether to allow resizing the iframe container horizontally (**default: false**)
+`src` - The URL of the iframe content<br />
+`title` - The title of the iframe content<br />
+`size` - The size of the iframe container<br />
+`minWidth` - The minimum width to resize down to (**default: 200**)<br />
+`minHeight` - The minimum height to resize down to (**default: 200**)<br />
+`showControls` - Whether to show device controls or not (**default: true**)<br />
+`enabledControls` - An array of controls to enable (**default: [ViewportSize.mobile, ViewportSize.tablet, ViewportSize.desktop, ViewportSize.fluid]**)<br />
+`allowResizingY` - Whether to allow resizing the iframe container vertically (**default: false**)<br />
+`allowResizingX` - Whether to allow resizing the iframe container horizontally (**default: false**)<br />
 
 
 ### Custom sizes
@@ -167,5 +169,5 @@ export const VIEWPORT_SIZES = {
 };
 ```
 
-![CleanShot 2024-02-05 at 16 34 (1)](https://github.com/danmindru/react-responsive-iframe-viewer/assets/1515742/aa130a18-9997-4dfd-a607-1e3c65c4840c)
+![Screenshot showing a nice demo with a shadow](https://github.com/danmindru/react-responsive-iframe-viewer/assets/1515742/aa130a18-9997-4dfd-a607-1e3c65c4840c)
 

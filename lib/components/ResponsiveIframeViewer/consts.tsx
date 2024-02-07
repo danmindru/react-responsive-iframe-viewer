@@ -1,7 +1,11 @@
 export const VIEWPORT_SIZES = {
-  mobile: {
+  miniMobile: {
     width: 320,
-    height: 568,
+    height: 480,
+  },
+  mobile: {
+    width: 375,
+    height: 667,
   },
   tablet: {
     width: 768,
@@ -50,6 +54,7 @@ export const VIEWPORT_SIZES = {
 
 export type ViewportSizeType = keyof typeof VIEWPORT_SIZES;
 export const ViewportSize = {
+  miniMobile: "miniMobile" as ViewportSizeType,
   mobile: "mobile" as ViewportSizeType,
   tablet: "tablet" as ViewportSizeType,
   desktop: "desktop" as ViewportSizeType,

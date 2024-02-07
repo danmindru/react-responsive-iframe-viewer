@@ -113,9 +113,13 @@ import { ResponsiveIframeViewer, ViewportSize } from "../lib/main";
 
 ```tsx
 export const VIEWPORT_SIZES = {
-  mobile: {
+  miniMobile: {
     width: 320,
-    height: 568,
+    height: 480,
+  },
+  mobile: {
+    width: 375,
+    height: 667,
   },
   tablet: {
     width: 768,

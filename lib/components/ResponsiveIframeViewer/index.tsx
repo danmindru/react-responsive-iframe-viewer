@@ -11,6 +11,7 @@ import {
   FullscreenIcon,
   Tv2Icon,
   ScanIcon,
+  RectangleVertical,
 } from "lucide-react";
 
 interface ResponsiveIframeViewerProps
@@ -55,6 +56,10 @@ const ViewportChangeButton = (props: ViewportChangeButtonProps) => {
 
   let icon = <FullscreenIcon size={iconSize} />;
   switch (size) {
+    case ViewportSize.miniMobile:
+      icon = <RectangleVertical size={iconSize} />;
+      break;
+
     case ViewportSize.mobile:
     case ViewportSize.sm:
       icon = <SmartphoneIcon size={iconSize} />;

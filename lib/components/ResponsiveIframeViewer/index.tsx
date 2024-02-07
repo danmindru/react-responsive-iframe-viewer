@@ -147,6 +147,8 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     allowResizingX = false,
     iframeClassName = "",
     resizableContainerClassName = "",
+    controlsPreComponent,
+    controlsPostComponent,
     ...rest
   } = props;
 
@@ -208,7 +210,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
           props.controlsContainerClassName,
         ].join(" ")}
       >
-        {props.controlsPreComponent}
+        {controlsPreComponent}
         <div
           className={[
             "flex items-center justify-center gap-2",
@@ -226,7 +228,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
             );
           })}
         </div>
-        {props.controlsPostComponent}
+        {controlsPostComponent}
       </div>
     ) : null;
   };

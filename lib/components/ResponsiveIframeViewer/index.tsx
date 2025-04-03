@@ -206,9 +206,10 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         const viewportHeight =
           overrideViewportSizes?.[size]?.height || VIEWPORT_SIZES[size].height;
 
+        // Apply fluid settings on top of viewport sizes
         setViewportSizeInternal({
-          width: viewportWidth,
-          height: viewportHeight,
+          width: fluidX ? "100%" : viewportWidth,
+          height: fluidY ? "100%" : viewportHeight,
         });
 
         return;
@@ -219,12 +220,28 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         const nextWidth = width < (minWidth || 0) ? minWidth : width;
         const nextHeight = height < (minHeight || 0) ? minHeight : height;
 
-        setViewportSizeInternal({ width: nextWidth, height: nextHeight });
+        // Apply fluid settings for arbitrary dimensions
+        setViewportSizeInternal({
+          width: fluidX ? "100%" : nextWidth,
+          height: fluidY ? "100%" : nextHeight,
+        });
       } else {
-        setViewportSizeInternal({ width, height });
+        // If width/height are already strings (potentially "100%"),
+        // respect fluidX/fluidY for explicit overrides
+        setViewportSizeInternal({
+          width: fluidX ? "100%" : width,
+          height: fluidY ? "100%" : height,
+        });
       }
     },
-    [setViewportSizeInternal, minWidth, minHeight, overrideViewportSizes]
+    [
+      setViewportSizeInternal,
+      minWidth,
+      minHeight,
+      overrideViewportSizes,
+      fluidX,
+      fluidY,
+    ]
   );
 
   const isSizeSelected = (size: ViewportSizeType) => {

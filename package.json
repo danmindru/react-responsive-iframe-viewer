@@ -1,7 +1,7 @@
 {
   "name": "react-responsive-iframe-viewer",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A responsive iframe viewer for React",
   "website": "https://react-responsive-iframe-viewer.vercel.app/",
   "repository": {

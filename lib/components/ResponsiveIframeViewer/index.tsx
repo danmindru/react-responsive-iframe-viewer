@@ -27,6 +27,9 @@ interface ResponsiveIframeViewerProps
   enabledControls?: ViewportSizeType[];
   allowResizingY?: boolean;
   allowResizingX?: boolean;
+  onIframeLoad?: (
+    event: React.SyntheticEvent<HTMLIFrameElement, Event>
+  ) => void;
   overrideViewportSizes?: Partial<
     Record<
       ViewportSizeType,
@@ -256,6 +259,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
           height={viewportSizeInternal.height}
           width={viewportSizeInternal.width}
           className={["border-none", iframeClassName].join(" ")}
+          onLoad={props.onIframeLoad}
         />
       </div>
     );
@@ -341,6 +345,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         <iframe
           {...rest}
           className={["border-none w-full h-full", iframeClassName].join(" ")}
+          onLoad={props.onIframeLoad}
         />
       </Resizable>
     </div>

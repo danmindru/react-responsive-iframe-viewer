@@ -161,7 +161,13 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     resizableContainerClassName = "",
     controlsPreComponent,
     controlsPostComponent,
-    ...rest
+    controlsContainerClassName,
+    controlsClassName,
+    className,
+    src,
+    title,
+    onIframeLoad,
+    ...iframeProps
   } = props;
 
   const getViewportSize = useCallback(() => {
@@ -256,14 +262,14 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
       <div
         className={[
           "flex justify-between items-center gap-2",
-          props.controlsContainerClassName,
+          controlsContainerClassName,
         ].join(" ")}
       >
         {controlsPreComponent}
         <div
           className={[
             "flex items-center justify-center gap-2",
-            props.controlsClassName,
+            controlsClassName,
           ].join(" ")}
         >
           {enabledControls.map((size) => {
@@ -291,16 +297,18 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
       <div
         className={[
           "h-full w-full flex flex-col gap-4 items-center justify-center",
-          props.className,
+          className,
         ].join(" ")}
       >
         <Controls />
         <iframe
-          {...rest}
+          {...iframeProps}
+          src={src}
+          title={title}
           height={viewportSizeInternal.height}
           width={viewportSizeInternal.width}
           className={["border-none", iframeClassName].join(" ")}
-          onLoad={props.onIframeLoad}
+          onLoad={onIframeLoad}
         />
       </div>
     );
@@ -310,7 +318,7 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     <div
       className={[
         "h-full w-full flex flex-col gap-4 items-center justify-center",
-        props.className,
+        className,
       ].join(" ")}
     >
       <Controls />
@@ -384,9 +392,9 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
         ].join(" ")}
       >
         <iframe
-          {...rest}
+          {...iframeProps}
           className={["border-none w-full h-full", iframeClassName].join(" ")}
-          onLoad={props.onIframeLoad}
+          onLoad={onIframeLoad}
         />
       </Resizable>
     </div>

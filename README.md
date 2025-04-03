@@ -76,6 +76,8 @@ import { ResponsiveIframeViewer, ViewportSize } from 'react-responsive-iframe-vi
 `enabledControls` - An array of controls to enable (**default: [ViewportSize.mobile, ViewportSize.tablet, ViewportSize.desktop, ViewportSize.fluid]**)<br />
 `allowResizingY` - Whether to allow resizing the iframe container vertically (**default: false**)<br />
 `allowResizingX` - Whether to allow resizing the iframe container horizontally (**default: false**)<br />
+`fluidX` - Forces the width to 100% regardless of other settings (**default: false**)<br />
+`fluidY` - Forces the height to 100% regardless of other settings (**default: false**)<br />
 `onIframeLoad` - Event handler called when the iframe content has finished loading<br />
 
 

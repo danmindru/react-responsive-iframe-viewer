@@ -27,6 +27,8 @@ interface ResponsiveIframeViewerProps
   enabledControls?: ViewportSizeType[];
   allowResizingY?: boolean;
   allowResizingX?: boolean;
+  fluidX?: boolean;
+  fluidY?: boolean;
   onIframeLoad?: (
     event: React.SyntheticEvent<HTMLIFrameElement, Event>
   ) => void;
@@ -153,6 +155,8 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
     showControls = true,
     allowResizingY = false,
     allowResizingX = false,
+    fluidX = false,
+    fluidY = false,
     iframeClassName = "",
     resizableContainerClassName = "",
     controlsPreComponent,
@@ -161,9 +165,29 @@ export const ResponsiveIframeViewer = (props: ResponsiveIframeViewerProps) => {
   } = props;
 
   const getViewportSize = useCallback(() => {
-    const viewportSize = size ? VIEWPORT_SIZES[size] : { width, height };
-    return viewportSize;
-  }, [size, width, height]);
+    // Apply fluid settings first
+    const fluidDimensions = {
+      width: fluidX ? "100%" : width,
+      height: fluidY ? "100%" : height,
+    };
+
+    // If size is specified and neither fluidX nor fluidY are set, use the viewport size
+    if (size && !fluidX && !fluidY) {
+      return VIEWPORT_SIZES[size];
+    }
+
+    // If size is specified but either fluidX or fluidY are set,
+    // selectively override the dimensions
+    if (size) {
+      return {
+        width: fluidX ? "100%" : VIEWPORT_SIZES[size].width,
+        height: fluidY ? "100%" : VIEWPORT_SIZES[size].height,
+      };
+    }
+
+    // Otherwise use the fluid dimensions (which might include width/height props)
+    return fluidDimensions;
+  }, [size, width, height, fluidX, fluidY]);
 
   const [viewportSizeInternal, setViewportSizeInternal] = useState<{
     width: number | string;
